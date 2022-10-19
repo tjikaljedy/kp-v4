@@ -1,0 +1,143 @@
+buildscript {
+	ext {
+		springBootVer = '2.7.3'
+		springSecVer = '5.7.3'
+		
+		//Reactive
+		rsocketVer = '1.1.3'
+		
+		//Apache
+		beanVer = '1.9.4'
+		langVer = '3.12.0'
+		codecVer = '1.15'
+		validatorVer = '1.7'
+		ioVer = '2.11.0'
+		cborVer = '2.13.3'
+		commonTextVer = '1.9'
+		commonFileVer = '1.4'
+		
+		//AxonFramework
+		axonVer = '4.5.15'
+		axonReactorVer = '4.5.1'
+
+		// DB
+		mysqlVer = '8.0.30'
+		
+		//Google
+		gsonVer = '2.8.5'
+		gsimpleVer = '1.1.1'
+		guavaVer = '31.1-jre'
+		
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		
+	}
+	dependencies {
+		classpath("org.springframework.boot.experimental:spring-boot-thin-gradle-plugin:1.0.28.RELEASE")
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+group = 'io.melody'
+version = '10.0.0'
+sourceCompatibility = '11'
+
+sourceSets {
+	main {
+        java {
+             srcDirs = ['src/main/java']
+        }
+        resources {
+             srcDirs = ['src/main/resources']
+        }
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	
+}
+
+dependencies {
+	implementation ('org.springframework.boot:spring-boot-starter-webflux:'+springBootVer) {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	}
+	providedRuntime 'org.springframework.boot:spring-boot-starter-jetty:'+springBootVer
+	implementation 'org.springframework.boot:spring-boot-starter-rsocket:'+springBootVer
+	//JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
+	runtimeOnly 'mysql:mysql-connector-java'
+	
+	//Reactive
+	//implementation 'io.rsocket:rsocket-core:'+rsocketVer
+	//implementation 'io.rsocket:rsocket-transport-netty:'+rsocketVer
+	
+	//Apache Common
+	implementation 'commons-beanutils:commons-beanutils:'+beanVer
+	implementation 'commons-codec:commons-codec:'+codecVer
+	implementation 'org.apache.commons:commons-lang3:'+langVer
+	implementation 'commons-validator:commons-validator:'+validatorVer
+	implementation 'commons-io:commons-io:'+ioVer
+	implementation 'org.apache.commons:commons-text:'+commonTextVer
+	//Fixed Multipart
+	implementation 'commons-fileupload:commons-fileupload:'+commonFileVer
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:'+cborVer
+	
+
+	//AxonFramework
+	implementation ('org.axonframework:axon-spring-boot-starter:'+axonVer) {
+		exclude module: 'axon-server-connector'
+		exclude group: 'org.axonframework.extensions.mongo' ,module: 'axon-mongo-parent'
+		exclude group: 'org.axonframework.extensions.mongo' ,module: 'axon-mongo'
+		exclude group: 'com.google.guava'
+		exclude group: 'org.axonframework', module: 'axon-server-connector'
+	}
+	implementation 'org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter:'+axonReactorVer
+	
+	//Google
+	implementation('com.googlecode.json-simple:json-simple:'+gsimpleVer)  {
+		exclude group: 'junit', module: 'junit'
+	}
+	implementation('com.google.code.gson:gson:'+gsonVer) {
+		exclude group: 'com.google.guava'
+	}
+	implementation 'com.google.guava:guava:'+guavaVer
+	
+
+	//Others
+	providedCompile 'org.projectlombok:lombok'
+  	annotationProcessor 'org.projectlombok:lombok'
+	
+	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'com.vaadin.external.google', module: 'android-json'
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot.experimental.thin-launcher'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+thinResolvePrepare {
+	into new File("${buildDir}/thin/deploy")
+}

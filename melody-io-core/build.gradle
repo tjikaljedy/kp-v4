@@ -1,0 +1,253 @@
+buildscript {
+	ext {
+		springBootVer = '2.7.4'
+		springSecVer = '5.7.3'
+		mongoLegacyVer = '4.7.1'
+		bson4Ver = '2.12.0'
+		
+		//NATS
+		natsVer = '2.16.0'
+		
+		//Reactive
+		reactorVer = '3.4.23'
+		rsocketVer = '1.1.3'
+		
+		//socket.io 
+		socketIoVer = '4.0.1'
+		engineIoVer = '6.2.1'
+		clientIoVer = '2.1.0'
+		
+		//Apache
+		beanVer = '1.9.4'
+		langVer = '3.12.0'
+		codecVer = '1.15'
+		validatorVer = '1.7'
+		ioVer = '2.11.0'
+		cborVer = '2.13.3'
+		commonTextVer = '1.9'
+		commonFileVer = '1.4'
+		
+		//AxonFramework
+		axonVer = '4.5.15'
+		axonReactorVer = '4.5.1'
+		axonMongoVer = '4.5'
+		
+		//Security
+		jwtVer = '0.11.5'
+		
+		//In memoryDB
+		sawvyDbVer = '0.16.2'
+		
+		// DB
+		//mysqlVer = '8.0.30'
+		
+		//State Machine
+		jeasyVer = '4.1.0'
+		evalExVer = '2.7'
+		jodaVer = '2.11.1'
+		jsoupVer = '1.15.3'
+		stMachineVer = '1.2.0'
+		stYamlVer = '2.5.0'
+		stSchemaVer = '1.0.60'
+		
+		//Google
+		gsonVer = '2.8.5'
+		gsimpleVer = '1.1.1'
+		guavaVer = '31.1-jre'
+		gapiVer = '2.0.0'
+		gfcmVer = '9.0.0'
+		goauthVer = 'v2-rev157-1.25.0'
+		gmailVer = 'v1-rev110-1.25.0'
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		
+	}
+	dependencies {
+		classpath("org.springframework.boot.experimental:spring-boot-thin-gradle-plugin:1.0.28.RELEASE")
+	}
+	
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+group = 'io.melody'
+version = '10.0.0'
+sourceCompatibility = '13'
+
+sourceSets {
+	main {
+        java {
+             srcDirs = ['src/main/java','src/jongo/java']
+        }
+        resources {
+             srcDirs = ['src/main/resources']
+        }
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+	implementation ('org.springframework.boot:spring-boot-starter-webflux:'+springBootVer) {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	}
+	//implementation ('org.springframework.boot:spring-boot-starter-websocket:'+springBootVer) {
+	//	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	//	exclude group: 'io.projectreactor', module: 'reactor-core'
+	//	exclude group: 'io.rsocket', module: 'rsocket-core'
+	//	exclude group: 'io.rsocket', module: 'rsocket-transport-netty'
+	//}
+	providedRuntime 'org.springframework.boot:spring-boot-starter-jetty:'+springBootVer
+	
+	//RSocket
+	implementation 'org.springframework.boot:spring-boot-starter-rsocket:'+springBootVer
+	
+	//implementation 'io.projectreactor:reactor-core:'+reactorVer
+	//implementation 'io.rsocket:rsocket-core:'+rsocketVer
+	//implementation 'io.rsocket:rsocket-transport-netty:'+rsocketVer
+	
+	//NATS
+	implementation 'io.nats:jnats:'+natsVer
+	
+	//Socket.io
+	implementation ('io.socket:socket.io-server:'+socketIoVer) {
+		exclude group: 'io.socket', module: 'engine.io-server'
+		exclude group: 'io.socket', module: 'socket.io-client'
+	}
+	implementation 'io.socket:engine.io-server:'+engineIoVer
+	implementation 'io.socket:socket.io-client:'+clientIoVer
+	
+	//AxonFramework
+	implementation ('org.axonframework:axon-spring-boot-starter:'+axonVer) {
+		exclude group: 'org.axonframework', module: 'axon-server-connector'
+		
+	}
+	implementation 'org.axonframework.extensions.mongo:axon-mongo:'+axonMongoVer
+	implementation 'org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter:'+axonReactorVer
+	
+	//Security
+	implementation 'org.springframework.boot:spring-boot-starter-security:'+springBootVer
+	implementation ('org.springframework.security:spring-security-rsocket:'+springSecVer) {
+		//exclude group: 'io.projectreactor', module: 'reactor-core'
+		//exclude group: 'io.rsocket', module: 'rsocket-core'
+		//exclude group: 'io.rsocket', module: 'rsocket-transport-netty'
+	} 
+	
+	implementation 'io.jsonwebtoken:jjwt-api:'+jwtVer
+	implementation 'io.jsonwebtoken:jjwt-impl:'+jwtVer
+	implementation ('io.jsonwebtoken:jjwt-jackson:'+jwtVer) {
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+	}
+	
+	//JPA or Mongodb
+	implementation ('org.springframework.boot:spring-boot-starter-data-mongodb:'+springBootVer) {
+		exclude group: 'org.mongodb', module: 'mongodb-driver-core'
+		exclude group: 'org.mongodb', module: 'mongodb-driver-legacy'
+		exclude group: 'org.mongodb', module: 'mongodb-driver-sync'
+		exclude group: 'org.mongodb', module: 'mongodb-driver-sync'
+	}
+	
+	//MongoDB Legacy
+	implementation ('org.mongodb:mongodb-driver-legacy:'+mongoLegacyVer)
+	implementation ('org.mongodb:mongodb-driver-core:'+mongoLegacyVer)
+	implementation ('org.mongodb:mongodb-driver-sync:'+mongoLegacyVer)
+	implementation ('de.undercouch:bson4jackson:'+bson4Ver) {
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+		exclude group: 'junit', module: 'junit'
+	}
+	
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
+	//runtimeOnly 'mysql:mysql-connector-java'
+	
+
+	
+	//Apache Common
+	implementation 'commons-beanutils:commons-beanutils:'+beanVer
+	implementation 'commons-codec:commons-codec:'+codecVer
+	implementation 'org.apache.commons:commons-lang3:'+langVer
+	implementation 'commons-validator:commons-validator:'+validatorVer
+	implementation 'commons-io:commons-io:'+ioVer
+	implementation 'org.apache.commons:commons-text:'+commonTextVer
+	//Fixed Multipart
+	implementation 'commons-fileupload:commons-fileupload:'+commonFileVer
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:'+cborVer
+	
+	
+	//In memoryDB
+	implementation 'io.swaydb:java_2.13:'+sawvyDbVer
+	
+	//Google
+	implementation('com.google.api-client:google-api-client:'+gapiVer){
+		exclude group: 'com.google.guava'
+	}
+	implementation('com.google.apis:google-api-services-gmail:'+gmailVer)
+	implementation('com.google.apis:google-api-services-oauth2:'+goauthVer)
+	implementation('com.google.firebase:firebase-admin:'+gfcmVer){
+		exclude group: 'com.google.guava'
+		exclude group: 'io.grpc', module: 'grpc-netty-shaded'
+	}
+	implementation('com.googlecode.json-simple:json-simple:'+gsimpleVer)  {
+		exclude group: 'junit', module: 'junit'
+	}
+	implementation('com.google.code.gson:gson:'+gsonVer) {
+		exclude group: 'com.google.guava'
+	}
+	implementation 'com.google.guava:guava:'+guavaVer
+	
+	//State Machine
+	implementation('joda-time:joda-time:'+jodaVer)
+	implementation('com.udojava:EvalEx:'+evalExVer)
+	implementation('org.jsoup:jsoup:'+jsoupVer)
+	implementation('org.jeasy:easy-rules-core:'+jeasyVer)
+	implementation('org.jeasy:easy-rules-mvel:'+jeasyVer)
+	implementation('com.networknt:json-schema-validator:'+stSchemaVer) {
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+		exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+	}
+	implementation 'com.github.pnavais:state-machine:'+stMachineVer
+	implementation 'dev.akkinoc.util:yaml-resource-bundle:'+stYamlVer
+	
+	//Others
+	providedCompile 'org.projectlombok:lombok'
+  	annotationProcessor 'org.projectlombok:lombok'
+	
+	testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'com.vaadin.external.google', module: 'android-json'
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot.experimental.thin-launcher'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+thinResolvePrepare {
+	into new File("${buildDir}/thin/deploy")
+}
+

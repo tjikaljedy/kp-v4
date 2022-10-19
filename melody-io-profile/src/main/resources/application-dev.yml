@@ -1,0 +1,11 @@
+server:
+  port: 8453
+  ssl:
+    key-store: file:/Users/tjikaljedy/Workspace/SSL/dev/melody-io.p12
+    key-store-password: changeit
+---
+core-config:
+  cl-rsocket:
+    enabled: true
+    host: 127.0.0.1
+    port: 6565

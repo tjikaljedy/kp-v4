@@ -1,0 +1,22 @@
+server:
+  port: 8443
+  ssl:
+    key-store: file:/Users/tjikaljedy/Workspace/SSL/dev/melody-io.p12
+    key-store-password: changeit
+---
+core-config:
+  cl-rsocket:
+    enabled: false
+    host: 127.0.0.1
+    port: 6565
+  jwt:
+    secret: ))iRYAcD%P/b+Nh962Nj3LW6%Y!ttCH7e$&RKXn=AwUBGWu3$3
+    refresh-exp-days: 360
+    expiration-hours: 720
+  otp:
+    expiration-minutes: 1440
+---
+cqrs-db:
+  core-host: localhost
+  core-port: 27017
+  core-database: kp_core_db
