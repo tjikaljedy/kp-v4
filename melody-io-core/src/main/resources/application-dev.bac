@@ -1,0 +1,9 @@
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/kp_core_db
+spring.datasource.username=root
+spring.datasource.password=K3l4spintar@123
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+
+spring.rsocket.server.port=6565
+spring.rsocket.server.transport=tcp

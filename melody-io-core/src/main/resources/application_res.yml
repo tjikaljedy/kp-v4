@@ -1,0 +1,27 @@
+activity:
+  AC_ERR_DEFAULT: Unabled to proceed
+  AC_ERR_UNAUTHORIZED: Unauthorized roles
+  AC_ERR_REDUNDANCE: Please continue with correct flow as
+  AC_ERR_USER_NOT_FOUND: User not found
+  AC_ERR_MAX_OTP_ATTEMPT: OTP max attempt exceeded, please try after 30 minute
+  AC_ERR_OTP: Unexpected problem, please check your email and re-verify the OTP
+  AC_ERR_LOGIN: Invalid credentials
+  AC_ERR_TOKEN: Invalid refesh token
+  AC_ERR_TOKEN_VALID: Refesh token still valid
+  AC_ERR_CHANGE_PASS: The password is incorrect
+  AC_ERR_LOGIN_EXIST: You already login, please logout first
+  AC_ERR_GRANT_PREMIUM: Unabled to grant
+profile:
+  PR_DEFAULT_SUCCESS: The process successful
+  PR_SIGNUP_SUCCESS: Signup successful
+  PR_OTP_SUCCESS: Verify OTP successful
+  PR_RECOVER_PASS_SUCCESS: Recovery password request successful
+  PR_UPDATE_PROFILE_SUCCESS: Update profile successful
+  PR_CHANGE_PASS_SUCCESS: Change password successful
+  PR_LOGIN_SUCCESS: Login successful
+  PR_LOGOUT_SUCCESS: Logout successful
+  PR_TOKEN_SUCCESS: Refesh token successfull
+  PR_DEVICE_ACTIVITY_SUCCESS: Device activity logging successful
+  PR_GRANT_PREMIUM_SUCCESS: Grant to Premium successful
+  PR_GRANT_PREMIUM_REJECT: User already has Premium Account
+  PR_PROFILE_INTEREST_SUCCESS: Update Profile interest successful
