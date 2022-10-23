@@ -15,10 +15,8 @@ import io.melody.core.auth.entity.UserAuthEntity;
 import io.melody.core.auth.repo.OAuthConfigRepo;
 import io.melody.core.auth.repo.RefreshTokenRepo;
 import io.melody.core.auth.repo.UserAuthRepo;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Component
 public class AuthUserManager implements ReactiveUserDetailsService {
 	@Autowired

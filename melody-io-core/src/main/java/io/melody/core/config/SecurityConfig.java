@@ -33,10 +33,8 @@ import org.springframework.web.util.pattern.PathPatternRouteMatcher;
 import io.melody.core.auth.provider.AuthFilter;
 import io.melody.core.auth.provider.AuthUserManager;
 import io.melody.core.auth.provider.JwtTokenProvider;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Configuration
 @EnableRSocketSecurity
 public class SecurityConfig {
@@ -126,7 +124,7 @@ public class SecurityConfig {
 
 		return authentication.map(
 				a -> context.getVariables().get("user").equals(a.getName()))
-				.map(AuthorizationDecision::new);
+				.map(t -> new AuthorizationDecision(t));
 
 	}
 

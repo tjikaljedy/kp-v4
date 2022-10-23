@@ -1,7 +1,6 @@
 package io.melody.core.infra.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.Data;
 

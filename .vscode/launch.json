@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch TestApplication",
+            "request": "launch",
+            "mainClass": "io.melody.core.TestApplication",
+            "projectName": "melody-io-core"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MelodyCore<melody-io-core>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "io.melody.core.MelodyCore",
+            "projectName": "melody-io-core",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

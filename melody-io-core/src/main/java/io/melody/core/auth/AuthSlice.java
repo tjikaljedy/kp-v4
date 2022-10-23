@@ -39,7 +39,6 @@ public class AuthSlice {
 	}
 
 	public Mono<org.json.simple.JSONObject> authorizeLogin(AuthDto inDto) {
-		// @formatter:off
 		return authProvider.loginCheckpoint(inDto).flatMap(authDto->{ 
 			return profileService.verityProfile(authDto).flatMap(out->{
 				return loginSuccess(authDto);
@@ -49,7 +48,6 @@ public class AuthSlice {
 				}))
 			));
 		});
-		// @formatter:on
 	}
 
 	public Mono<org.json.simple.JSONObject> authorizeSignup(AuthDto inDto) {

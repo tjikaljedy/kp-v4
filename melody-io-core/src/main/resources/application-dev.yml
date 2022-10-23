@@ -10,16 +10,11 @@ cqrs-db:
   core-database: kp_core_db
 ---
 core-config:
-  template: 
+  collections: 
     template: templates
     core: corevalues
-  sv-rsocket:
-    host: 127.0.0.1
-    port: 6565
-  cl-rsocket:
-    enabled: false
-    host: 127.0.0.1
-    port: 6565
+  swaydb:
+    uri: data-cache/cache
   jwt:
     secret: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJLM2w0c3BpbnRhckAxMjMifQ.WfQmgUuqTtkqUopiya6P8687vY4D3dc5LMboOWL85VdZ_gy_AbrRDMnZXQRLD5IZbzGKmm47i4JgLbCvnjzBCw
     refresh-exp-days: 360

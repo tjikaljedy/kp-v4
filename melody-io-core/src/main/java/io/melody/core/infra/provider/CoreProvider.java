@@ -12,6 +12,8 @@ import org.jongo.Jongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.rsocket.RSocketRequester;
+import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -25,22 +27,27 @@ import com.networknt.schema.SpecVersion;
 import io.melody.core.infra.entity.ValidatorEntity;
 import io.melody.core.utils.AppUtils;
 import lombok.extern.slf4j.Slf4j;
+
 @Component
 @Slf4j
 public class CoreProvider {
 	@Autowired
 	@Qualifier("jongoCore")
 	private Jongo jongoCore;
+	@Autowired
+	private RSocketStrategies rSocketStrategies;
+
 	private transient ObjectMapper mapper;
 	private transient Gson gson;
 	private transient Map<String, JsonSchema> jsonSchemas;
 
-	@Value("${core-config.template.template}")
+	@Value("${core-config.collections.template}")
 	private String COLL_TEMPLATES;
-	@Value("${core-config.template.core}")
+	@Value("${core-config.collections.core}")
 	private String COLL_CORE_VALUES;
 
 	private final String ERR_FIELD_MSG = "ERROR";
+	private transient RSocketRequester rSocketRequester;
 
 	@PostConstruct
 	public void init() {
@@ -91,4 +98,6 @@ public class CoreProvider {
 		}
 		return retValue;
 	}
+
+	
 }
