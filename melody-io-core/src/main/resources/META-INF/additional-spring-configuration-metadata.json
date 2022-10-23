@@ -1,0 +1,57 @@
+{"properties": [
+  {
+    "name": "core-config.collections.template",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.collections.template'"
+  },
+  {
+    "name": "core-config.collections.template",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.collections.template'"
+  },
+  {
+    "name": "core-config.swaydb.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.swaydb.uri'"
+  },
+  {
+    "name": "core-config.collections.core",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.collections.core'"
+  },
+  {
+    "name": "core-config.jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.jwt.secret'"
+  },
+  {
+    "name": "core-config.jwt.expiration-hours",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.jwt.expiration-hours'"
+  },
+  {
+    "name": "core-config.jwt.refresh-exp-days",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.jwt.refresh-exp-days'"
+  },
+  {
+    "name": "core-config.otp.expiration-minutes",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.otp.expiration-minutes'"
+  },
+  {
+    "name": "cqrs-db.core-port",
+    "type": "java.lang.String",
+    "description": "A description for 'cqrs-db.core-port'"
+  },
+  {
+    "name": "cqrs-db.core-host",
+    "type": "java.lang.String",
+    "description": "A description for 'cqrs-db.core-host'"
+  },
+  {
+    "name": "cqrs-db.core-database",
+    "type": "java.lang.String",
+    "description": "A description for 'cqrs-db.core-database'"
+  }
+]}

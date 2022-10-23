@@ -12,8 +12,6 @@ import org.jongo.Jongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.rsocket.RSocketRequester;
-import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -34,8 +32,6 @@ public class CoreProvider {
 	@Autowired
 	@Qualifier("jongoCore")
 	private Jongo jongoCore;
-	@Autowired
-	private RSocketStrategies rSocketStrategies;
 
 	private transient ObjectMapper mapper;
 	private transient Gson gson;
@@ -47,7 +43,6 @@ public class CoreProvider {
 	private String COLL_CORE_VALUES;
 
 	private final String ERR_FIELD_MSG = "ERROR";
-	private transient RSocketRequester rSocketRequester;
 
 	@PostConstruct
 	public void init() {
