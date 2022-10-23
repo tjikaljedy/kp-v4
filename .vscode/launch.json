@@ -16,6 +16,26 @@
             "projectName": "melody-io-core",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-TestApplication<melody-io-profile>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "io.melody.profile.TestApplication",
+            "projectName": "melody-io-profile",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MelodyProfile<melody-io-profile>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "io.melody.profile.MelodyProfile",
+            "projectName": "melody-io-profile",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

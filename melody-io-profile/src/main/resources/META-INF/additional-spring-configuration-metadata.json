@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "core-config.core-rsocket.port",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.core-rsocket.port'"
+  },
+  {
+    "name": "core-config.core-rsocket.host",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.core-rsocket.host'"
+  },
+  {
+    "name": "core-config.core-rsocket.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.core-rsocket.enabled'"
+  },
+  {
+    "name": "core-config.core-rsocket.uri",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.core-rsocket.uri'"
+  }
+]}

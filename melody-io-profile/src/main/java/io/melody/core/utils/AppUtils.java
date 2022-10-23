@@ -1,4 +1,4 @@
-package io.melody.profile.utils;
+package io.melody.core.utils;
 
 import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -16,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class AppUtils {
-	private static final Logger log = LoggerFactory.getLogger(AppUtils.class);
 	public static final String DATE_PATTERN = "yyyy-MM-dd";
 	public static final String GA_DATE_PATTERN = "yyyyMMdd";
 	public static final String MONGO_DATE_PATTERN = "EEE MMM dd HH:mm:ss Z yyyy";
@@ -33,6 +30,10 @@ public class AppUtils {
 		df.setTimeZone(TimeZone.getTimeZone(timeZone));
 		return df.format(date);
 	}
+	
+	//public static String hashOfPassword(String password) {
+	//	return BCrypt.hashpw(password, BCrypt.gensalt(10));
+	//}
 
 	// General
 	public static Gson gsonInstanceWithFilter(String[] ignorableField) {

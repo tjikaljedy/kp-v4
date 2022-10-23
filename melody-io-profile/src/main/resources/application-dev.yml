@@ -5,7 +5,6 @@ server:
     key-store-password: changeit
 ---
 core-config:
-  cl-rsocket:
+  core-rsocket:
     enabled: true
-    host: 127.0.0.1
-    port: 6565
+    uri: wss://127.0.0.1:6565/ws

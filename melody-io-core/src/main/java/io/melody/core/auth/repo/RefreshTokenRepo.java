@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import io.melody.core.auth.entity.JwtRefreshTokenEntity;
-import io.melody.core.auth.entity.OAuthConfigEntity;
 
 @Repository
 public interface RefreshTokenRepo

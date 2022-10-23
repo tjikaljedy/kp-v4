@@ -1,6 +1,5 @@
 package io.melody.core.auth.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,9 +26,8 @@ import lombok.Setter;
 
 @Data
 @Document(collection = "userauth")
-public class UserAuthEntity implements UserDetails, Serializable {
-	private static final long serialVersionUID = -7384062034333507911L;
-
+public class UserAuthEntity implements UserDetails {
+	
 	@Id
 	private Long _id;
 	@Field("userID")
