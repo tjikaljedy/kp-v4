@@ -64,6 +64,7 @@ public class CoreProvider {
 		while (items.hasNext()) {
 			ValidatorEntity item = items.next();
 			JsonSchema jsonSchema = factory.getSchema(item.getJsonSchema());
+			System.out.println(item);
 			jsonSchemas.put(item.getEvent(), jsonSchema);
 		}
 
@@ -75,7 +76,6 @@ public class CoreProvider {
 				org.json.simple.JSONObject.class);
 		org.json.simple.JSONObject retValue = new org.json.simple.JSONObject();
 		List<String> errorMessage = new ArrayList<String>();
-
 		try {
 			JsonNode node = mapper.readTree(dtoAsJson.toJSONString());
 			Set<com.networknt.schema.ValidationMessage> messages = this.jsonSchemas

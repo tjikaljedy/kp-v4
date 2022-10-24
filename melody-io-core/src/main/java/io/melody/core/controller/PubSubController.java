@@ -1,4 +1,4 @@
-package io.melody.core.pubsub;
+package io.melody.core.controller;
 
 import java.nio.file.Paths;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -17,8 +17,8 @@ import swaydb.java.StorageUnits;
 import swaydb.java.eventually.persistent.EventuallyPersistentMap;
 
 @Slf4j
-@Service
-public class PubSubService {
+@Controller
+public class PubSubController {
     @Value("${core-config.swaydb.uri}")
     private String swayDbUri;
     private swaydb.java.Map<String, String, Void> sessionMap;
@@ -34,10 +34,9 @@ public class PubSubService {
 
     }
 
-    @ConnectMapping("shell-client")
+    @ConnectMapping("collab-client")
     public void onClientConnect(RSocketRequester requester,
             @Payload String client) {
-
         requester.rsocket()
                 .onClose()
                 .doFirst(() -> {

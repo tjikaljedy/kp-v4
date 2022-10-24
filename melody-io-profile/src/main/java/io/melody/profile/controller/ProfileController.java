@@ -12,8 +12,11 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 
 import io.rsocket.SocketAcceptor;
+import io.rsocket.metadata.WellKnownMimeType;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,34 +24,37 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Controller
 public class ProfileController {
-
-    private  RSocketRequester.Builder rsocketRequesterBuilder;
-    private  RSocketStrategies rsocketStrategies;
-    private  RSocketRequester rsocketRequester;
+    // @Autowired
+    private RSocketStrategies rSocketStrategies;
+    private RSocketRequester.Builder rsocketRequesterBuilder;
+    private RSocketRequester rsocketRequester;
 
     @Value("${core-config.core-rsocket.uri}")
     private String rsocketURI;
 
     @Autowired
+    @SuppressWarnings("deprecation")
     public ProfileController(RSocketRequester.Builder builder,
             @Qualifier("rSocketStrategies") RSocketStrategies strategies) {
+        MimeType metadataMimeType = MimeTypeUtils.parseMimeType(
+                WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
         this.rsocketRequesterBuilder = builder;
-        this.rsocketStrategies = strategies;
-
-        System.out.println(">>>>>>>>  "+rsocketURI );
-        SocketAcceptor responder = RSocketMessageHandler.responder(this.rsocketStrategies, new ClientHandler());
+        this.rSocketStrategies = strategies;
+        SocketAcceptor responder = RSocketMessageHandler.responder(this.rSocketStrategies, new ClientHandler());
         this.rsocketRequester = rsocketRequesterBuilder
-                .setupRoute("shell-client")
-                .rsocketStrategies(this.rsocketStrategies)
+                .setupRoute("collab-client")
                 .setupData(IdentifierFactory.getInstance().generateIdentifier())
+                .rsocketStrategies(this.rSocketStrategies)
                 .rsocketConnector(connector -> connector.acceptor(responder))
-                .websocket(URI.create("wss://127.0.0.1:6565/ws"));
+                .metadataMimeType(metadataMimeType)
+                .connectWebSocket(URI.create("ws://localhost:6565/ws")).block();
 
         this.rsocketRequester.rsocket()
                 .onClose()
                 .doOnError(error -> log.warn("Connection CLOSED"))
                 .doFinally(consumer -> log.info("Client DISCONNECTED"))
                 .subscribe();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -66,8 +72,8 @@ public class ProfileController {
     public class ClientHandler {
         @MessageMapping("client-status")
         public Flux<String> statusUpdate(String status) {
-            System.out.println(">>>>>>>> TAI LUH");
-           return Flux.empty();
+            System.out.println(">>>>>>>> "+ status);
+            return Flux.empty();
         }
     }
 

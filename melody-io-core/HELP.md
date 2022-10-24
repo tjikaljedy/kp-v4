@@ -187,7 +187,8 @@ keytool -importkeystore -srckeystore melody-io.p12 -srcstoretype pkcs12 -destkey
 
 
 ## RSocket
-rsc --stream --route=user.login --data="{'x':60}" --debug wss://127.0.0.1:6565/ws
+rsc  --route=user.login --data="{\"email\":\"test@test.com\",\"password\":\"test\",\"deviceId\":\"device\"}" --debug ws://127.0.0.1:6565/ws
+rsc  --route=user.login --data="{\"email\":\"test@test.com\",\"password\":\"test\",\"deviceId\":\"device\"}" --debug tcp://127.0.0.1:6565
 
 Commaandline:
 https://github.com/making/rsc

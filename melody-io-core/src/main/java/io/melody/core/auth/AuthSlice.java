@@ -154,7 +154,6 @@ public class AuthSlice {
 	public Mono<org.json.simple.JSONObject> unexpectedFail(
 			org.json.simple.JSONObject messages) {
 		org.json.simple.JSONObject retVal = new org.json.simple.JSONObject();
-		// retVal.put("messages", messages);
 		retVal.put("messages", produceInfo(
 				ResBundle.instance().bundleAsStr(ResBundle.AC_ERR_DEFAULT)));
 		retVal.put("response_code", HttpStatus.NOT_ACCEPTABLE.value());
