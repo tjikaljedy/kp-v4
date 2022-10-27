@@ -4,7 +4,7 @@ buildscript {
 		springSecVer = '5.7.3'
 		mongoLegacyVer = '4.7.1'
 		bson4Ver = '2.12.0'
-		
+		//xstreamVer = '1.4.19'
 		//NATS
 		natsVer = '2.16.0'
 		
@@ -71,7 +71,7 @@ buildscript {
 }
 
 plugins {
-	id 'org.springframework.boot' version '2.7.3'
+	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
 	id 'war'
@@ -79,7 +79,7 @@ plugins {
 
 group = 'io.melody'
 version = '10.0.0'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 sourceSets {
 	main {
@@ -186,10 +186,13 @@ dependencies {
 	implementation 'commons-fileupload:commons-fileupload:'+commonFileVer
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:'+cborVer
 	
+	//implementation('com.thoughtworks.xstream:xstream:'+xstreamVer) {
+		//exclude group: 'xpp3', module: 'xpp3_min'
+	//}
 	
 	//In memoryDB
 	implementation 'io.swaydb:java_2.13:'+sawvyDbVer
-	
+
 	//Google
 	implementation('com.google.api-client:google-api-client:'+gapiVer){
 		exclude group: 'com.google.guava'
@@ -250,4 +253,3 @@ publishing {
 thinResolvePrepare {
 	into new File("${buildDir}/thin/deploy")
 }
-

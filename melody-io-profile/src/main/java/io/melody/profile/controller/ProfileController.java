@@ -47,8 +47,8 @@ public class ProfileController {
                 .rsocketStrategies(this.rSocketStrategies)
                 .rsocketConnector(connector -> connector.acceptor(responder))
                 .metadataMimeType(metadataMimeType)
-                .connectWebSocket(URI.create("ws://localhost:6565/ws")).block();
-
+                .connectWebSocket(URI.create("ws://127.0.0.1:6565/ws")).block();
+        
         this.rsocketRequester.rsocket()
                 .onClose()
                 .doOnError(error -> log.warn("Connection CLOSED"))

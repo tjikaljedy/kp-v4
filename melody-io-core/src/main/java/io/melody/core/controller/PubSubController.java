@@ -1,55 +1,51 @@
 package io.melody.core.controller;
 
-import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.annotation.ConnectMapping;
 import org.springframework.stereotype.Controller;
 
-import com.thoughtworks.xstream.XStream;
-
 import lombok.extern.slf4j.Slf4j;
-import swaydb.java.StorageUnits;
-import swaydb.java.eventually.persistent.EventuallyPersistentMap;
 
 @Slf4j
 @Controller
 public class PubSubController {
-    @Value("${core-config.swaydb.uri}")
-    private String swayDbUri;
-    private swaydb.java.Map<String, String, Void> sessionMap;
-    private final XStream xstream = new XStream();
+    // @Value("${core-config.swaydb.uri}")
+    // private String swayDbUri;
+    // private swaydb.java.Map<String, Byte[], Void> sessionMap;
+    private Map<String, io.rsocket.RSocket> sessionMap;
 
     @PostConstruct
     public void init() {
         try {
-            this.inMemorySession();
+            sessionMap = new HashMap<String, io.rsocket.RSocket>();
+            // this.inMemorySession();
         } catch (Exception e) {
             log.warn(e.getMessage());
         }
-
     }
 
     @ConnectMapping("collab-client")
     public void onClientConnect(RSocketRequester requester,
             @Payload String client) {
+
         requester.rsocket()
                 .onClose()
                 .doFirst(() -> {
-                    // Add all new clients to a client list
                     log.info("Client: {} CONNECTED.", client);
-                    this.getSessionMap().put(client, xstream.toXML(requester));
-                    ;
+                    sessionMap.put(client, requester.rsocket());
                 })
                 .doOnError(error -> {
                     log.warn("Channel to client {} CLOSED", client);
                 })
                 .doFinally(consumer -> {
-                    this.getSessionMap().remove(client);
+                    // this.getSessionMap().remove(client);
+                    sessionMap.remove(client);
                     log.info("Client {} DISCONNECTED", client);
                 })
                 .subscribe();
@@ -62,15 +58,16 @@ public class PubSubController {
                 .subscribe();
     }
 
-    private void inMemorySession() {
-        this.sessionMap = EventuallyPersistentMap
-                .functionsOff(Paths.get(swayDbUri), swaydb.java.serializers.Default.stringSerializer(),
-                        swaydb.java.serializers.Default.stringSerializer())
-                .setMaxSegmentsToPush(5).setMaxMemoryLevelSize(StorageUnits.mb(50)).get();
-    }
+    // private void inMemorySession() {
+    // this.sessionMap = EventuallyPersistentMap
+    // .functionsOff(Paths.get(swayDbUri),
+    // swaydb.java.serializers.Default.stringSerializer(),
+    // swaydb.java.serializers.Default.javaByteArraySerializer())
+    // .setMaxSegmentsToPush(5).setMaxMemoryLevelSize(StorageUnits.mb(50)).get();
+    // }
 
-    private swaydb.java.Map<String, String, Void> getSessionMap() {
-        return this.sessionMap;
-    }
+    // private swaydb.java.Map<String, Byte[], Void> getSessionMap() {
+    // return this.sessionMap;
+    // }
 
 }

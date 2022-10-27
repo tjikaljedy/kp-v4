@@ -7,4 +7,4 @@ server:
 core-config:
   core-rsocket:
     enabled: true
-    uri: wss://127.0.0.1:6565/ws
+    uri: ws://127.0.0.1:6565/ws

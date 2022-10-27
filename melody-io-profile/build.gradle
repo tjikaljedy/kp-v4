@@ -48,7 +48,7 @@ plugins {
 
 group = 'io.melody'
 version = '10.0.0'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 sourceSets {
 	main {
@@ -76,11 +76,7 @@ dependencies {
 	//JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
 	runtimeOnly 'mysql:mysql-connector-java'
-	
-	//Reactive
-	//implementation 'io.rsocket:rsocket-core:'+rsocketVer
-	//implementation 'io.rsocket:rsocket-transport-netty:'+rsocketVer
-	
+
 	//Apache Common
 	implementation 'commons-beanutils:commons-beanutils:'+beanVer
 	implementation 'commons-codec:commons-codec:'+codecVer
@@ -92,7 +88,6 @@ dependencies {
 	implementation 'commons-fileupload:commons-fileupload:'+commonFileVer
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:'+cborVer
 	
-
 	//AxonFramework
 	implementation ('org.axonframework:axon-spring-boot-starter:'+axonVer) {
 		exclude module: 'axon-server-connector'
@@ -112,7 +107,6 @@ dependencies {
 	}
 	implementation 'com.google.guava:guava:'+guavaVer
 	
-
 	//Others
 	providedCompile 'org.projectlombok:lombok'
   	annotationProcessor 'org.projectlombok:lombok'
