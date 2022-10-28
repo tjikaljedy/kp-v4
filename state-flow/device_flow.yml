@@ -1,0 +1,22 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"
+    - state:
+            name: "ACTIVE"
+            properties:
+                idx: "1"                         
+    - state:
+            name: "INACTIVE"
+            properties:
+                idx: "2"
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "AWAKE"
+            target: "ACTIVE"
+    - transition:
+            source: "ACTIVE"
+            message: "SLEEP"  
+            target: "INACTIVE"

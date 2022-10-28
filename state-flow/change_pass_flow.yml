@@ -1,0 +1,16 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"                
+    - state:
+            name: "COMPLETE"
+            final: "true"
+            properties:
+                idx: "4"
+                final: "DONE"
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "CHANGE_PASS"
+            target: "COMPLETE"

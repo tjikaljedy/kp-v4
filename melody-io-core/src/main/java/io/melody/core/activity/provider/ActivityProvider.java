@@ -12,29 +12,30 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jongo.Jongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import com.google.gson.reflect.TypeToken;
-import com.mongodb.client.gridfs.model.GridFSFile;
+
 import com.github.pnavais.machine.StateMachine;
-import com.github.pnavais.machine.importer.YAMLBufferImporter;
-import com.google.api.client.util.Value;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.gson.Gson;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import com.github.pnavais.machine.api.message.Message;
 import com.github.pnavais.machine.api.transition.TransitionIndex;
+import com.github.pnavais.machine.importer.YAMLBufferImporter;
 import com.github.pnavais.machine.model.State;
 import com.github.pnavais.machine.model.StateTransition;
 import com.github.pnavais.machine.model.StringMessage;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.mongodb.client.gridfs.model.GridFSFile;
+
 import io.melody.core.activity.StateKey;
 import io.melody.core.activity.entity.ActivityEventEntity;
 import io.melody.core.activity.repo.ActivityRepo;
@@ -48,10 +49,10 @@ import reactor.core.publisher.Mono;
 public class ActivityProvider {
     @Autowired
     @Qualifier("jongoCore")
-    private Jongo jongoCore;
+    private transient Jongo jongoCore;
     @Autowired
     @Qualifier("coreFS")
-    private GridFsTemplate coreFS;
+    private transient  GridFsTemplate coreFS;
     @Autowired
     private transient ActivityRepo activityRepo;
 
@@ -67,7 +68,7 @@ public class ActivityProvider {
         gson = AppUtils.gsonInstance();
         this.stFlows = new HashMap<String, StateMachine>();
         this.immutableMap = ImmutableMap.builder();
-
+ 
         final List<org.json.simple.JSONObject> flows = this.obtainStateMachineList();
         flows.forEach(item -> {
             try {
@@ -148,12 +149,13 @@ public class ActivityProvider {
     //
     public List<org.json.simple.JSONObject> obtainStateMachineList() {
         org.jongo.MongoCollection collection = jongoCore.getCollection(COLL_CORE_VALUES);
-        org.json.simple.JSONObject value = collection.findOne(DbEnum.STF_CRITERIA_01, DbEnum.STF_CRITERIA_VALUE_01)
+      org.json.simple.JSONObject value = collection.findOne(DbEnum.STF_CRITERIA_01, DbEnum.STF_CRITERIA_VALUE_01)
                 .as(org.json.simple.JSONObject.class);
 
-        return gson.fromJson(gson.toJson(value.get(DbEnum.STF_FIELDS[0])),
+       return gson.fromJson(gson.toJson(value.get(DbEnum.STF_FIELDS[0])),
                 new TypeToken<ArrayList<org.json.simple.JSONObject>>() {
-                }.getType());
+               }.getType());
+         
     }
 
     public InputStream obtainStateMachine(org.json.simple.JSONObject data) throws IllegalStateException, IOException {

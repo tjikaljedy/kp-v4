@@ -1,0 +1,39 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"
+    - state:
+            name: "NOTIFY"
+            properties:
+                idx: "1"
+    - state:
+            name: "REPLY"
+            properties:
+                idx: "2"   
+    - state:
+            name: "IN_REVIEW"
+            properties:
+                idx: "3"
+    - state:
+            name: "COMPLETE"
+            final: "true"
+            properties:
+                idx: "4"                                
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "SUBSCRIBE"
+            target: "IN_REVIEW"
+    - transition:
+            source: "NOTIFY"
+            message: "NOTIFY_OTP"            
+            target: "REPLY"
+    - transition:
+            source: "REPLY"
+            message: "VERIFY_OTP"
+            target: "IN_REVIEW"
+    - transition:
+            source: "IN_REVIEW"
+            target: "COMPLETE"
+            message: "APPROVAL"

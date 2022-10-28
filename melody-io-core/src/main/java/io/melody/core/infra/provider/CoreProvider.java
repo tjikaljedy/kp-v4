@@ -1,7 +1,5 @@
 package io.melody.core.infra.provider;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +12,12 @@ import org.jongo.Jongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mongodb.client.gridfs.model.GridFSFile;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
@@ -71,7 +64,6 @@ public class CoreProvider {
 		while (items.hasNext()) {
 			ValidatorEntity item = items.next();
 			JsonSchema jsonSchema = factory.getSchema(item.getJsonSchema());
-			System.out.println(item);
 			jsonSchemas.put(item.getEvent(), jsonSchema);
 		}
 
@@ -101,6 +93,4 @@ public class CoreProvider {
 		return retValue;
 	}
 
-
-	
 }

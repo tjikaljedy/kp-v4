@@ -1,0 +1,36 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"
+                action: "RecoverPassCommand"
+                fork: "NOTIFY_OTP"         
+    - state:
+            name: "NOTIFY"
+            properties:
+                idx: "2"
+                action: "NotifyActivityCommand"
+    - state:
+            name: "REPLY"
+            properties:
+                idx: "3"     
+                action: "VerifyActivityCommand"           
+    - state:
+            name: "COMPLETE"
+            final: "true"
+            properties:
+                idx: "4"
+                final: "DONE"
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "RECOVER_PASS"
+            target: "NOTIFY"         
+    - transition:
+            source: "NOTIFY"
+            message: "NOTIFY_OTP"  
+            target: "REPLY"
+    - transition:
+            source: "REPLY"
+            message: "VERIFY_OTP"
+            target: "COMPLETE"

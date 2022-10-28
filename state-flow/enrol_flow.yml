@@ -1,0 +1,47 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"
+    - state:
+            name: "NOTIFY"
+            properties:
+                idx: "1"
+    - state:
+            name: "REPLY"
+            properties:
+                idx: "2"                
+    - state:
+            name: "IN_PROGRESS"
+            properties:
+                idx: "3"
+    - state:
+            name: "COMPLETE_BIO"
+            properties:
+                idx: "4"
+    - state:
+            name: "COMPLETE"
+            final: "true"
+            properties:
+                idx: "5"                                
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "SIGN_UP"
+            target: "NOTIFY"
+    - transition:
+            source: "NOTIFY"
+            message: "NOTIFY_OTP"            
+            target: "REPLY"
+    - transition:
+            source: "REPLY"
+            message: "VERIFY_OTP"
+            target: "IN_PROGRESS"
+    - transition:
+            source: "IN_PROGRESS"
+            target: "COMPLETE_BIO"
+            message: "UPDATE_BIO"
+    - transition:
+            source: "COMPLETE_BIO"
+            target: "COMPLETE"
+            message: "UPDATE_PROFILE"

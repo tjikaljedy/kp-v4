@@ -19,10 +19,14 @@ import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.mongodb.ConnectionString;
 
 @Configuration
+@EnableTransactionManagement
+@EnableMongoRepositories(basePackages = { "io.melody.core" }, mongoTemplateRef = "coreTemplate")
 public class CoreDbConfig {
 	@Value("${cqrs-db.core-host}")
 	private String coreHost;

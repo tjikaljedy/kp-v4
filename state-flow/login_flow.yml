@@ -1,0 +1,24 @@
+states:
+    - state:
+            name: "INITIAL"
+            properties:
+                idx: "0"
+    - state:
+            name: "USER_LOGOUT"
+            properties:
+                idx: "1"                         
+    - state:
+            name: "COMPLETE"
+            final: "true"
+            properties:
+                idx: "2"
+                final: "DONE"
+transitions:
+    - transition:
+            source: "INITIAL"
+            message: "LOGIN"
+            target: "USER_LOGOUT"
+    - transition:
+            source: "USER_LOGOUT"
+            message: "LOGOUT"  
+            target: "COMPLETE"            
