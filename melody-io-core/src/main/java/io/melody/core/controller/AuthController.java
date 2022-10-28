@@ -21,14 +21,26 @@ public class AuthController {
 	public Mono<org.json.simple.JSONObject> userLogin(
 			org.json.simple.JSONObject payload, RSocketRequester requester) {
 		
-		org.json.simple.JSONObject validation = coreProvider.validationDto(EventEnrol.LOGIN.getName(), payload);
-
-		System.out.println(">>>>>>>> "+ !validation.isEmpty());			
+		org.json.simple.JSONObject validation = coreProvider.validationDto(EventEnrol.LOGIN.getName(), payload);	
 		if (!validation.isEmpty()) 
 			return authSlice.unexpectedFail(validation);	
 		
 		return authSlice.consume(payload).flatMap(dto -> {
 			return authSlice.authorizeLogin(dto);
+		});
+	
+	}
+
+	@MessageMapping("user.signup")
+	public Mono<org.json.simple.JSONObject> userSignup(
+			org.json.simple.JSONObject payload, RSocketRequester requester) {
+		
+		org.json.simple.JSONObject validation = coreProvider.validationDto(EventEnrol.SIGN_UP.getName(), payload);	
+		if (!validation.isEmpty()) 
+			return authSlice.unexpectedFail(validation);	
+		
+		return authSlice.consume(payload).flatMap(dto -> {
+			return authSlice.authorizeSignup(dto);
 		});
 	
 	}

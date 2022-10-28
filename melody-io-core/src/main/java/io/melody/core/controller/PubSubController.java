@@ -49,7 +49,7 @@ public class PubSubController {
                     log.info("Client {} DISCONNECTED", client);
                 })
                 .subscribe();
-
+    
         // Callback to client, confirming connection
         requester.route("client-status")
                 .data("OPEN")

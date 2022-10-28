@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import io.melody.core.enums.DbEnum;
 import io.melody.core.utils.AppUtils;
@@ -76,8 +77,7 @@ public class UserAuthEntity implements UserDetails {
 	@Setter(AccessLevel.NONE)
 	@Field("isCredentialsNonExpired")
 	private boolean isCredentialsNonExpired;
-
-	@DBRef(db = DbEnum.CORE_DB)
+	@Field("roles")
 	private List<String> roles;
 
 	@Transient
@@ -110,6 +110,25 @@ public class UserAuthEntity implements UserDetails {
 		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
 		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
 		this.initialUserRoles();
+	}
+
+	public boolean isValidPassword(String passInDto) {
+		return BCrypt.checkpw(passInDto, this.password);
+	}
+	
+	public List<String> getRoles() {
+		if (CollectionUtils.isEmpty(roles)) {
+			roles = new ArrayList<String>();
+		}
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public boolean hasRole(String role) {
+		return this.roles.stream().anyMatch(role::equals);
 	}
 
 	// UserDetail Implementation

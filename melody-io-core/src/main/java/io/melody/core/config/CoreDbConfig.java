@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import com.mongodb.ConnectionString;
 
@@ -38,13 +42,26 @@ public class CoreDbConfig {
 		return com.mongodb.client.MongoClients.create(
 				new ConnectionString(PREFIX_DB + coreHost + ":" + corePort));
 	}
+	@Bean(name = "coreTemplate")
+	public org.springframework.data.mongodb.core.MongoTemplate coreDbTemplate() {
+		return new org.springframework.data.mongodb.core.MongoTemplate(coreClient(), coreDb);
+	}
+	@Bean(name = "coreFactory")
+	public MongoDatabaseFactory coreFactory() {
+		return new SimpleMongoClientDatabaseFactory(coreClient(), coreDb);
+	}
+	@Bean(name = "coreFS")
+	public GridFsTemplate coreFS() throws Exception {
+		MappingMongoConverter converter = ((MappingMongoConverter) coreDbTemplate().getConverter());
+		return new GridFsTemplate(coreFactory(), converter);
+	}
 	
+	//Jongo
 	@Bean(name = "jongoClient")
 	public com.mongodb.MongoClient jongoClient() {
 		return new com.mongodb.MongoClient(coreHost, corePort);
 	}
-	
-	//Jongo
+
 	@SuppressWarnings("deprecation")
 	@Bean(name = "jongoCore")
 	public Jongo jongoTrans(@Qualifier("jongoClient") final com.mongodb.MongoClient client) {

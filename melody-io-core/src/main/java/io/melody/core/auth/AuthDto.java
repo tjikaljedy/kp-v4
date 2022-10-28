@@ -25,6 +25,8 @@ public class AuthDto {
 	private String refreshToken;
 	private String deviceId;
 	private String type;
+	private String event;
+	private String status;
 	private ActivityDto activity;
 	
 	@Setter(AccessLevel.NONE)

@@ -29,13 +29,10 @@ public class ProfileController {
     private RSocketRequester.Builder rsocketRequesterBuilder;
     private RSocketRequester rsocketRequester;
 
-    @Value("${core-config.core-rsocket.uri}")
-    private String rsocketURI;
-
     @Autowired
     @SuppressWarnings("deprecation")
     public ProfileController(RSocketRequester.Builder builder,
-            @Qualifier("rSocketStrategies") RSocketStrategies strategies) {
+            @Qualifier("rSocketStrategies") RSocketStrategies strategies, @Value("${core-config.core-rsocket.uri}") String rsocketURI) {
         MimeType metadataMimeType = MimeTypeUtils.parseMimeType(
                 WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
         this.rsocketRequesterBuilder = builder;
@@ -47,14 +44,13 @@ public class ProfileController {
                 .rsocketStrategies(this.rSocketStrategies)
                 .rsocketConnector(connector -> connector.acceptor(responder))
                 .metadataMimeType(metadataMimeType)
-                .connectWebSocket(URI.create("ws://127.0.0.1:6565/ws")).block();
+                .connectWebSocket(URI.create(rsocketURI)).block();
         
         this.rsocketRequester.rsocket()
                 .onClose()
                 .doOnError(error -> log.warn("Connection CLOSED"))
                 .doFinally(consumer -> log.info("Client DISCONNECTED"))
                 .subscribe();
-
     }
 
     @SuppressWarnings("unchecked")

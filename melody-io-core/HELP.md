@@ -217,3 +217,8 @@ brew install redis
 
 --add-opens=java.base/java.nio=ALL-UNNAMED
 --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+
+## Testing Flow
+rsc  --route=user.signup --data="{\"email\":\"test@test.com\",\"password\":\"test\",\"deviceId\":\"device\"}" --debug ws://127.0.0.1:6565/ws
+
+rsc  --route=user.login --data="{\"email\":\"test@test.com\",\"password\":\"test\",\"deviceId\":\"device\"}" --debug ws://127.0.0.1:6565/ws

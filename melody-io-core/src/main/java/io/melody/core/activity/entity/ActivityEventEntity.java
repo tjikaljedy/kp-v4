@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-@Document(collection = "activityevents")
+@Document(collection = "activityevent")
 public class ActivityEventEntity implements Serializable {
 	private static final long serialVersionUID = 6445083404707919582L;
 	@Id

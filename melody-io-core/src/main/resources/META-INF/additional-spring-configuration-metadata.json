@@ -53,5 +53,20 @@
     "name": "cqrs-db.core-database",
     "type": "java.lang.String",
     "description": "A description for 'cqrs-db.core-database'"
+  },
+  {
+    "name": "core-config.stateflow.name",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.stateflow.name'"
+  },
+  {
+    "name": "core-config.stateflow.flow-type",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.stateflow.flow-type'"
+  },
+{
+    "name": "core-config.stateflow.repo-type",
+    "type": "java.lang.String",
+    "description": "A description for 'core-config.stateflow.repo-type'"
   }
 ]}
