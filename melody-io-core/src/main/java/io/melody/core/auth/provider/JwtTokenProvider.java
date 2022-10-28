@@ -20,8 +20,8 @@ import io.melody.core.auth.entity.UserAuthEntity;
 import io.melody.core.enums.AuthEnum;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
 @Slf4j
+@Component
 public class JwtTokenProvider {
 	public static final String HEADER_PREFIX = "Bearer ";
 

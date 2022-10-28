@@ -39,27 +39,21 @@ public class AuthSlice {
 	}
 
 	public Mono<org.json.simple.JSONObject> authorizeLogin(AuthDto inDto) {
-		return authProvider.loginCheckpoint(inDto).flatMap(authDto->{ 
-			return profileService.verityProfile(authDto).flatMap(out->{
+		return authProvider.loginCheckpoint(inDto).flatMap(authDto -> {
+			return profileService.verityProfile(authDto).flatMap(out -> {
 				return loginSuccess(authDto);
-			}).switchIfEmpty(Mono.defer(() -> 
-				Mono.fromFuture(CompletableFuture.supplyAsync(() -> {
-					return loginFail(inDto);
-				}))
-			));
+			}).switchIfEmpty(Mono.defer(() -> Mono.fromFuture(CompletableFuture.supplyAsync(() -> {
+				return loginFail(inDto);
+			}))));
 		});
 	}
 
 	public Mono<org.json.simple.JSONObject> authorizeSignup(AuthDto inDto) {
-		// @formatter:off
-		return authProvider.signupCheckpoint(inDto).flatMap(authDto->{
+		return authProvider.signupCheckpoint(inDto).flatMap(authDto -> {
 			return signupSuccess(authDto);
-		}).switchIfEmpty(Mono.defer(() -> 
-			Mono.fromFuture(CompletableFuture.supplyAsync(() -> {
-				return verifyAccountFail(inDto);
-			}))
-		));
-		// @formatter:on
+		}).switchIfEmpty(Mono.defer(() -> Mono.fromFuture(CompletableFuture.supplyAsync(() -> {
+			return verifyAccountFail(inDto);
+		}))));
 	}
 
 	@SuppressWarnings("unchecked")
