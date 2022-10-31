@@ -75,12 +75,14 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
 	id 'war'
+	id 'application'
 }
 
 group = 'io.melody'
 version = '10.0.0'
 sourceCompatibility = '17'
 
+mainClassName = "io.melody.core.MelodyCore"
 sourceSets {
 	main {
         java {
@@ -173,8 +175,6 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
 	//runtimeOnly 'mysql:mysql-connector-java'
 	
-
-	
 	//Apache Common
 	implementation 'commons-beanutils:commons-beanutils:'+beanVer
 	implementation 'commons-codec:commons-codec:'+codecVer
@@ -224,6 +224,13 @@ dependencies {
 	}
 	implementation 'com.github.pnavais:state-machine:'+stMachineVer
 	implementation 'dev.akkinoc.util:yaml-resource-bundle:'+stYamlVer
+
+	//JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
+	runtimeOnly 'mysql:mysql-connector-java'
+	//Camunda
+	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.18.0'
 	
 	//Others
 	providedCompile 'org.projectlombok:lombok'

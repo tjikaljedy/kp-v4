@@ -146,7 +146,7 @@ public class ActivityProvider {
                 activityType);
     }
 
-    //
+    //StateFlow
     public List<org.json.simple.JSONObject> obtainStateMachineList() {
         org.jongo.MongoCollection collection = jongoCore.getCollection(COLL_CORE_VALUES);
       org.json.simple.JSONObject value = collection.findOne(DbEnum.STF_CRITERIA_01, DbEnum.STF_CRITERIA_VALUE_01)

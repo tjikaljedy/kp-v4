@@ -2,7 +2,6 @@ package io.melody.core.auth.entity;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,10 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import io.melody.core.enums.DbEnum;
 import io.melody.core.enums.StatusEnum;
 import io.melody.core.enums.StatusLogin;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
 @Data
 @Document(collection = "userprofile")

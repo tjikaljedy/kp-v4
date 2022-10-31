@@ -44,11 +44,13 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
 	id 'war'
+	id 'application'
 }
 
 group = 'io.melody'
 version = '10.0.0'
 sourceCompatibility = '17'
+mainClassName = 'io.melody.profile.MelodyProfile'
 
 sourceSets {
 	main {

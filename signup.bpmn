@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0g4o3x5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.2" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Process_0ufwd7y" isExecutable="true">
+    <bpmn:startEvent id="Start-trip" name="Start-trip">
+      <bpmn:outgoing>Flow_1fw5zo0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity-Reserve-car" name="Reserve car" camunda:class="io.melody.core.infra.adapter.ReserveCarAdapter">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="Output_05akkls">
+            <camunda:map>
+              <camunda:entry key="status">OTP</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fw5zo0</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1fw5zo0" sourceRef="Start-trip" targetRef="Activity-Reserve-car" />
+    <bpmn:boundaryEvent id="Event_1qmq8zp" attachedToRef="Activity-Reserve-car">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_0vvosqq" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Activity-Cancel-car-compensation" name="Cancel Car" isForCompensation="true" camunda:class="io.melody.core.infra.adapter.CancelCarAdapter" />
+    <bpmn:association id="Association_0ayuus7" associationDirection="One" sourceRef="Event_1qmq8zp" targetRef="Activity-Cancel-car-compensation" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0ufwd7y">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Start-trip">
+        <dc:Bounds x="152" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="149" y="125" width="43" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e34t8n_di" bpmnElement="Activity-Reserve-car">
+        <dc:Bounds x="250" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08xj4qd_di" bpmnElement="Activity-Cancel-car-compensation">
+        <dc:Bounds x="330" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0ayuus7_di" bpmnElement="Association_0ayuus7">
+        <di:waypoint x="300" y="158" />
+        <di:waypoint x="300" y="240" />
+        <di:waypoint x="330" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_02guk2s_di" bpmnElement="Event_1qmq8zp">
+        <dc:Bounds x="282" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1fw5zo0_di" bpmnElement="Flow_1fw5zo0">
+        <di:waypoint x="188" y="100" />
+        <di:waypoint x="250" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
