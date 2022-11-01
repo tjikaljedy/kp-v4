@@ -38,8 +38,10 @@ buildscript {
 		//In memoryDB
 		sawvyDbVer = '0.16.2'
 		
-		// DB
-		//mysqlVer = '8.0.30'
+		// JPA + Camunda
+		mysqlVer = '8.0.30'
+		jaxbVer = '4.0.1'
+		camundaVer = '7.18.0'
 		
 		//State Machine
 		jeasyVer = '4.1.0'
@@ -172,9 +174,6 @@ dependencies {
 		exclude group: 'junit', module: 'junit'
 	}
 	
-	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
-	//runtimeOnly 'mysql:mysql-connector-java'
-	
 	//Apache Common
 	implementation 'commons-beanutils:commons-beanutils:'+beanVer
 	implementation 'commons-codec:commons-codec:'+codecVer
@@ -225,13 +224,13 @@ dependencies {
 	implementation 'com.github.pnavais:state-machine:'+stMachineVer
 	implementation 'dev.akkinoc.util:yaml-resource-bundle:'+stYamlVer
 
-	//JPA
+	//JPA + Camunda
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:'+springBootVer
-	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'mysql:mysql-connector-java:'+mysqlVer
 	//Camunda
-	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
-    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.18.0'
-	
+	implementation 'com.sun.xml.bind:jaxb-impl:'+jaxbVer
+    implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:'+camundaVer
+	//implementation 'org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-external-task-client:'+camundaVer
 	//Others
 	providedCompile 'org.projectlombok:lombok'
   	annotationProcessor 'org.projectlombok:lombok'

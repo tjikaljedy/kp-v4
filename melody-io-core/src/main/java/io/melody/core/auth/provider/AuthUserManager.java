@@ -65,6 +65,8 @@ public class AuthUserManager implements ReactiveUserDetailsService {
 
 	/**
 	 * Sign-up Checkpoint Process
+	 * The filter condition required, to prevent duplicate invoke to same endppint
+	 * first invoke route to initialSignup, second to reply otp
 	 * 
 	 * @param inDto
 	 * @return
