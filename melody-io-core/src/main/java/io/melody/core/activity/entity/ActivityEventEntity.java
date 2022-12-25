@@ -26,7 +26,8 @@ import lombok.Getter;
 public class ActivityEventEntity implements Serializable {
 	private static final long serialVersionUID = 6445083404707919582L;
 	@Id
-	private String _id;
+	@Field("_id")
+	private Long id;
 	@Field("activityEventID")
 	private String activityEventID;
 	@Field("activityType")
@@ -67,8 +68,8 @@ public class ActivityEventEntity implements Serializable {
 	
 	public ActivityEventEntity() {
 		this.activityEventID = IdentifierFactory.getInstance().generateIdentifier();
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 	}
 
 	public ActivityEventEntity(String type) {
@@ -76,8 +77,8 @@ public class ActivityEventEntity implements Serializable {
 		this.activityType = type;
 		this.active = true;
 		this.flowIsDone = false;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 
 	}
 
@@ -90,8 +91,8 @@ public class ActivityEventEntity implements Serializable {
 		this.parentActivityEventID = parent.getActivityEventID();
 		this.active = true;
 		this.flowIsDone = false;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 		this.parentActivityEventID = parent.getActivityEventID();
 		
 		//TODO
@@ -108,8 +109,8 @@ public class ActivityEventEntity implements Serializable {
 		this.activityType = type;
 		this.active = true;
 		this.flowIsDone = false;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 
 		this.sequenceNumber = 0;
 		this.event = start.getMessage().toString();
@@ -126,8 +127,8 @@ public class ActivityEventEntity implements Serializable {
 		this.activityType = type;
 		this.active = true;
 		this.flowIsDone = false;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 
 		this.sequenceNumber = 0;
 		this.event = type;

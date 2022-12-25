@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.axonframework.common.IdentifierFactory;
@@ -26,9 +25,10 @@ import lombok.Setter;
 @Data
 @Document(collection = "userauth")
 public class UserAuthEntity implements UserDetails {
-	
+
 	@Id
-	private Long _id;
+	@Field("_id")
+	private Long id;
 	@Field("userID")
 	private String userID;
 	@Field("email")
@@ -88,8 +88,8 @@ public class UserAuthEntity implements UserDetails {
 		this.isAccountNonExpired = true;
 		this.isAccountNonLocked = true;
 		this.isCredentialsNonExpired = true;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 		this.initialUserRoles();
 	}
 
@@ -105,18 +105,18 @@ public class UserAuthEntity implements UserDetails {
 		this.isAccountNonExpired = true;
 		this.isAccountNonLocked = true;
 		this.isCredentialsNonExpired = true;
-		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
-		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), "yyyy-MM-dd HH:mm:ss", AppUtils.ZONE_GMT_PLUS7);
+		this.createdAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
+		this.updatedAt = AppUtils.dateToDateStringFormat(new Date(), AppUtils.DEFAULT_DATE_PATTERN, AppUtils.ZONE_GMT_PLUS7);
 		this.initialUserRoles();
 	}
 
 	public boolean isValidPassword(String passInDto) {
 		return BCrypt.checkpw(passInDto, this.password);
 	}
-	
+
 	public List<String> getRoles() {
 		if (CollectionUtils.isEmpty(roles)) {
-			roles = new ArrayList<String>();
+			roles = new ArrayList<>();
 		}
 		return roles;
 	}
@@ -131,12 +131,11 @@ public class UserAuthEntity implements UserDetails {
 
 	// UserDetail Implementation
 	public void initialUserRoles() {
-		this.userRoles = new ArrayList<UserRoleEntity>();
+		this.userRoles = new ArrayList<>();
 		UserRoleEntity role = new UserRoleEntity();
 		this.userRoles.add(role);
-		this.roles = this.userRoles.stream().map(s -> {
-			return s.getName();
-		}).collect(Collectors.toList());
+		this.roles = this.userRoles.stream().map(
+				UserRoleEntity::getName).toList();
 	}
 
 	@Override
@@ -147,7 +146,7 @@ public class UserAuthEntity implements UserDetails {
 		return CollectionUtils.isNotEmpty(this.userRoles)
 				? this.userRoles.stream()
 						.map(a -> new SimpleGrantedAuthority(a.getName()))
-						.collect(Collectors.toList())
+						.toList()
 				: null;
 	}
 

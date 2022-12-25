@@ -17,12 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.impl.DefaultClock;
 import io.melody.core.enums.InfoEnum;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SecurityUtils {
+
+	private SecurityUtils() {
+	}
 
 	public static Map<String, List<String>> produceInfo(String info) {
 		Map<String, List<String>> messages = new HashMap<String, List<String>>();
-		List<String> infoItems = new ArrayList<String>();
+		List<String> infoItems = new ArrayList<>();
 		infoItems.add(info);
 		messages.put(InfoEnum.INFO.getName(), infoItems);
 		return messages;
@@ -30,7 +35,7 @@ public class SecurityUtils {
 
 	public static Map<String, Object> produceErrorAttribute(
 			Map<String, Object> srcAttributes) {
-		Map<String, Object> errorRet = new HashMap<String, Object>();
+		Map<String, Object> errorRet = new HashMap<>();
 
 		errorRet.put("response_code",
 				srcAttributes.get(InfoEnum.STATUS.getName()));
@@ -70,7 +75,7 @@ public class SecurityUtils {
 				generatedToken.append(number.nextInt(9));
 			}
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 
 		return generatedToken.toString();
@@ -80,12 +85,12 @@ public class SecurityUtils {
 		if (value == null) {
 			return null;
 		} else {
-			MessageDigest digest;
+			MessageDigest digest = null;
 			try {
-				digest = MessageDigest.getInstance("MD5");
+				digest = MessageDigest.getInstance("SHA-512");
 			} catch (NoSuchAlgorithmException var5) {
 				throw new IllegalStateException(
-						"MD5 algorithm not available.  Fatal (should be in the JDK).");
+						"SHA-512 algorithm not available.  Fatal (should be in the JDK).");
 			}
 
 			try {

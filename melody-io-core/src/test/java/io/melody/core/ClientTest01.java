@@ -24,7 +24,7 @@ class ClientTest01 {
 	private String COLL_CORE_VALUES;
 	@Test
 	void test01() {
-		log.info("test01...");
+		//log.info("test01...");
 		
 	}
 

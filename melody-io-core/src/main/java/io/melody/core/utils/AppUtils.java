@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -92,13 +94,13 @@ public class AppUtils {
 
 	public static int getAsInt(org.json.simple.JSONObject obj, String key) {
 		String s = getAsStr(obj, key);
-		s = s.replaceFirst("\\.0*$|(\\.\\d*?)0+$", "$1");
+		s = s.replaceFirst(Pattern.quote("\\.0*$|(\\.\\d*?)0+$"), Matcher.quoteReplacement("$1"));
 		return NumberUtils.toInt(s);
 	}
 
 	public static long getAsLong(org.json.simple.JSONObject obj, String key) {
 		String s = getAsStr(obj, key);
-		s = s.replaceFirst("\\.0*$|(\\.\\d*?)0+$", "$1");
+		s = s.replaceFirst(Pattern.quote("\\.0*$|(\\.\\d*?)0+$"), Matcher.quoteReplacement("$1"));
 		return NumberUtils.toLong(s);
 	}
 

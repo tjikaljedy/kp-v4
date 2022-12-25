@@ -35,13 +35,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class JsonMetaSchema {
 
 	private static final Logger logger = LoggerFactory.getLogger(JsonMetaSchema.class);
-	private static Map<String, String> UNKNOWN_KEYWORDS = new ConcurrentHashMap<String, String>();
+	private static Map<String, String> UNKNOWN_KEYWORDS = new ConcurrentHashMap<>();
 
 	static PatternFormat pattern(String name, String regex) {
 		return new PatternFormat(name, regex);
 	}
 
-	public static final List<Format> COMMON_BUILTIN_FORMATS = new ArrayList<Format>();
+	public static final List<Format> COMMON_BUILTIN_FORMATS = new ArrayList<>();
 
 	// this section contains formats that is common for all specification versions.
 	static {
@@ -108,16 +108,11 @@ public class JsonMetaSchema {
 
 		public static final List<Format> BUILTIN_FORMATS = new ArrayList<Format>(JsonMetaSchema.COMMON_BUILTIN_FORMATS);
 
-		static {
-			// add version specific formats here.
-			// BUILTIN_FORMATS.add(pattern("phone", "^\\+(?:[0-9] ?){6,14}[0-9]$"));
-		}
-
 		public static JsonMetaSchema getInstance() {
 			return new Builder(URI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
 					.addKeywords(ValidatorTypeCode.getNonFormatKeywords(SpecVersion.VersionFlag.V4))
 					// keywords that may validly exist, but have no validation aspect to them
-					.addKeywords(Arrays.asList(new NonValidationKeyword("$schema"), new NonValidationKeyword("id"),
+					.addKeywords(Arrays.asList(new NonValidationKeyword("$schema"), new NonValidationKeyword("$id"),
 							new NonValidationKeyword("title"), new NonValidationKeyword("description"),
 							new NonValidationKeyword("default"), new NonValidationKeyword("definitions"),
 							new NonValidationKeyword("exampleSetFlag")))
@@ -132,11 +127,6 @@ public class JsonMetaSchema {
 
 		public static final List<Format> BUILTIN_FORMATS = new ArrayList<Format>(JsonMetaSchema.COMMON_BUILTIN_FORMATS);
 
-		static {
-			// add version specific formats here.
-			// BUILTIN_FORMATS.add(pattern("phone", "^\\+(?:[0-9] ?){6,14}[0-9]$"));
-		}
-
 		public static JsonMetaSchema getInstance() {
 			return new Builder(URI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
 					.addKeywords(ValidatorTypeCode.getNonFormatKeywords(SpecVersion.VersionFlag.V6))
@@ -149,18 +139,13 @@ public class JsonMetaSchema {
 	}
 
 	private static class V7 {
-		private static String URI = "https://json-schema.org/draft-07/schema";
+		private static String schemaURI = "https://json-schema.org/draft-07/schema";
 		private static final String ID = "$id";
 
-		public static final List<Format> BUILTIN_FORMATS = new ArrayList<Format>(JsonMetaSchema.COMMON_BUILTIN_FORMATS);
-
-		static {
-			// add version specific formats here.
-			// BUILTIN_FORMATS.add(pattern("phone", "^\\+(?:[0-9] ?){6,14}[0-9]$"));
-		}
+		public static final List<Format> BUILTIN_FORMATS = new ArrayList<>(JsonMetaSchema.COMMON_BUILTIN_FORMATS);
 
 		public static JsonMetaSchema getInstance() {
-			return new Builder(URI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
+			return new Builder(schemaURI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
 					.addKeywords(ValidatorTypeCode.getNonFormatKeywords(SpecVersion.VersionFlag.V7))
 					// keywords that may validly exist, but have no validation aspect to them
 					.addKeywords(Arrays.asList(new NonValidationKeyword("$schema"), new NonValidationKeyword("$id"),
@@ -174,18 +159,13 @@ public class JsonMetaSchema {
 	}
 
 	private static class V201909 {
-		private static String URI = "https://json-schema.org/draft/2019-09/schema";
+		private static String schemaURI = "https://json-schema.org/draft/2019-09/schema";
 		private static final String ID = "$id";
 
 		public static final List<Format> BUILTIN_FORMATS = new ArrayList<Format>(JsonMetaSchema.COMMON_BUILTIN_FORMATS);
 
-		static {
-			// add version specific formats here.
-			// BUILTIN_FORMATS.add(pattern("phone", "^\\+(?:[0-9] ?){6,14}[0-9]$"));
-		}
-
 		public static JsonMetaSchema getInstance() {
-			return new Builder(URI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
+			return new Builder(schemaURI).idKeyword(ID).addFormats(BUILTIN_FORMATS)
 					.addKeywords(ValidatorTypeCode.getNonFormatKeywords(SpecVersion.VersionFlag.V201909))
 					// keywords that may validly exist, but have no validation aspect to them
 					.addKeywords(Arrays.asList(new NonValidationKeyword("$schema"), new NonValidationKeyword("$id"),
@@ -203,8 +183,8 @@ public class JsonMetaSchema {
 	}
 
 	public static class Builder {
-		private Map<String, Keyword> keywords = new HashMap<String, Keyword>();
-		private Map<String, Format> formats = new HashMap<String, Format>();
+		private Map<String, Keyword> keywords = new HashMap<>();
+		private Map<String, Format> formats = new HashMap<>();
 		private String uri;
 		private String idKeyword = "id";
 
@@ -214,7 +194,7 @@ public class JsonMetaSchema {
 
 		private static Map<String, Keyword> createKeywordsMap(Map<String, Keyword> kwords,
 				Map<String, Format> formats) {
-			final Map<String, Keyword> map = new HashMap<String, Keyword>();
+			final Map<String, Keyword> map = new HashMap<>();
 			for (Map.Entry<String, Keyword> type : kwords.entrySet()) {
 				String keywordName = type.getKey();
 				Keyword keyword = type.getValue();
@@ -361,8 +341,7 @@ public class JsonMetaSchema {
 			Keyword kw = keywords.get(keyword);
 			if (kw == null) {
 				if (UNKNOWN_KEYWORDS.put(keyword, keyword) == null) {
-					logger.warn("Unknown keyword " + keyword
-							+ " - you should define your own Meta Schema. If the keyword is irrelevant for validation, just use a NonValidationKeyword");
+					logger.warn("Unknown keyword {0} - you should define your own Meta Schema. If the keyword is irrelevant for validation, just use a NonValidationKeyword",keyword);
 				}
 				return null;
 			}
@@ -373,13 +352,13 @@ public class JsonMetaSchema {
 				logger.error("Error:", e);
 				throw (JsonSchemaException) e.getTargetException();
 			} else {
-				logger.warn("Could not load validator " + keyword);
+				logger.warn("Could not load validator {0}", keyword);
 				throw new JsonSchemaException(e.getTargetException());
 			}
 		} catch (JsonSchemaException e) {
 			throw e;
 		} catch (Exception e) {
-			logger.warn("Could not load validator " + keyword);
+			logger.warn("Could not load validator {0}", keyword);
 			throw new JsonSchemaException(e);
 		}
 	}

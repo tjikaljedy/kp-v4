@@ -67,9 +67,9 @@ public class Aggregate {
 
 	public <T> ResultsIterator<T> map(ResultHandler<T> resultHandler) {
 		Iterator<DBObject> results;
-		AggregationOptions options = this.options.get();
-		if (options != null) {
-			results = collection.aggregate(pipeline, options);
+		AggregationOptions activeOptions = this.options.get();
+		if (activeOptions != null) {
+			results = collection.aggregate(pipeline, activeOptions);
 		} else {
 			results = collection.aggregate(pipeline, AggregationOptions.builder().build());
 		}
@@ -102,6 +102,7 @@ public class Aggregate {
 			return resultHandler.map(dbObject);
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException("remove() method is not supported");
 		}
